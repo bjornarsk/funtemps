@@ -3,12 +3,16 @@ package main
 import (
 	"flag"
 	"fmt"
+
+	"github.com/bjornarsk/funtemps/conv"
 )
 
 // Definerer flag-variablene i hoved-"scope"
-var fahr float64
 var out string
 var funfacts string
+var fahr float64
+var celsius float64
+var kelvin float64
 
 // Bruker init (som anbefalt i dokumentasjonen) for å sikre at flagvariablene
 // er initialisert.
@@ -23,6 +27,8 @@ func init() {
 
 	// Definerer og initialiserer flagg-variablene
 	flag.Float64Var(&fahr, "F", 0.0, "temperatur i grader fahrenheit")
+	flag.Float64Var(&celsius, "C", 0.0, "temperatur i garder celsius")
+	flag.Float64Var(&kelvin, "K", 0.0, "temperatur i grader kelvin")
 	// Du må selv definere flag-variablene for "C" og "K"
 	flag.StringVar(&out, "out", "C", "beregne temperatur i C - celsius, F - farhenheit, K- Kelvin")
 	flag.StringVar(&funfacts, "funfacts", "sun", "\"fun-facts\" om sun - Solen, luna - Månen og terra - Jorden")
@@ -31,7 +37,7 @@ func init() {
 
 }
 
-func main1() {
+func main() {
 
 	flag.Parse()
 
@@ -56,20 +62,45 @@ func main1() {
 	*/
 
 	// Her er noen eksempler du kan bruke i den manuelle testingen
-	fmt.Println(fahr, out, funfacts)
+	fmt.Println("Dette er første linje")
 
-	fmt.Println("len(flag.Args())", len(flag.Args()))
-	fmt.Println("flag.NFlag()", flag.NFlag())
-
-	fmt.Println(isFlagPassed("out"))
-
-	// Eksempel på enkel logikk
+	// Eksempel på enkel logikk, Fahrenheit til Celsius
 	if out == "C" && isFlagPassed("F") {
 		// Kalle opp funksjonen FahrenheitToCelsius(fahr), som da
+		celsius = conv.FahrenheitToCelsius(fahr)
 		// skal returnere °C
-		fmt.Println("0°F er -17.78°C")
+		fmt.Println(fahr, "°F er", celsius, "°C")
 	}
 
+	// Celsius til Fahrenheit
+	if out == "F" && isFlagPassed("C") {
+		fahr = conv.CelsiusToFahrenheit(celsius)
+		fmt.Println(celsius, "°C er", fahr, "°F")
+	}
+
+	// Fahrenheit til Kelvin
+	if out == "K" && isFlagPassed("F") {
+		kelvin = conv.FahrenheitToKelvin(fahr)
+		fmt.Println(fahr, "°F er", kelvin, "°K")
+	}
+
+	// Celsius til Kelvin
+	if out == "K" && isFlagPassed("C") {
+		kelvin = conv.CelsiusToKelvin(celsius)
+		fmt.Println(celsius, "°C er", kelvin, "°K")
+	}
+
+	// Kelvin til Celsius
+	if out == "C" && isFlagPassed("K") {
+		celsius = conv.KelvinToCelsius(kelvin)
+		fmt.Println(kelvin, "°K er", celsius, "°C")
+	}
+
+	// Kelvin til Fahrenheit
+	if out == "F" && isFlagPassed("K") {
+		fahr = conv.KelvinToFahrenheit(kelvin)
+		fmt.Println(kelvin, "°K er", fahr, "°F")
+	}
 }
 
 // Funksjonen sjekker om flagget er spesifisert på kommandolinje
@@ -83,5 +114,3 @@ func isFlagPassed(name string) bool {
 	})
 	return found
 }
-
-

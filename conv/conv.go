@@ -1,7 +1,5 @@
 package conv
-var Fahrenheit float64
-var Celsius float64
-var Kelvin float64
+
 /*
   I denne pakken skal alle konverteringfunksjonene
   implementeres. Bruk engelsk.
@@ -23,27 +21,25 @@ func FarhenheitToCelsius2(value float64) float64 {
 // De andre konverteringsfunksjonene implementere her
 // ...
 func FahrenheitToCelsius(value float64) float64 {
-    return (value - 32) * (5 / 9)
+	return (value - 32) * 5 / 9
 }
 
 func CelsiusToFahrenheit(value float64) float64 {
-    return value(9/5) + 32
+	return value*9/5 + 32
 }
 
 func CelsiusToKelvin(value float64) float64 {
-    return value + 273.15
+	return value + 273.15
 }
 
 func KelvinToCelsius(value float64) float64 {
-    return value - 273.15
+	return value - 273.15
 }
 
 func KelvinToFahrenheit(value float64) float64 {
-    return (value-273.15)(9/5) + 32
+	return (value-273.15)*9/5 + 32
 }
 
 func FahrenheitToKelvin(value float64) float64 {
-    return (value-32)*(5/9) + 273.15
+	return (value-32)*5/9 + 273.15
 }
-
-
