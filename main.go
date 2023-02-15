@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/bjornarsk/funtemps/conv"
 )
@@ -37,6 +39,28 @@ func init() {
 
 }
 
+func formatNumber(num float64) string {
+	formatted := strconv.FormatFloat(num, 'f', 2, 64)
+	formatted = strings.TrimRight(formatted, "0")
+	formatted = strings.TrimRight(formatted, ".")
+
+	if (num > 1000) || (num < -1000) {
+		// Add commas as separators between large numbers
+		formatted = addCommas(formatted)
+		// Add a space between the number and the comma
+		formatted = strings.Replace(formatted, ",", " ", -1)
+	}
+	return formatted
+}
+
+func addCommas(str string) string {
+	n := len(str)
+	if n <= 3 {
+		return str
+	}
+	return addCommas(str[:n-3]) + "," + str[n-3:]
+}
+
 func main() {
 
 	flag.Parse()
@@ -69,7 +93,7 @@ func main() {
 		// Kalle opp funksjonen FahrenheitToCelsius(fahr), som da
 		celsius = conv.FahrenheitToCelsius(fahr)
 		// skal returnere °C
-		fmt.Println(fahr, "°F er", celsius, "°C")
+		fmt.Println(fahr, "°F er", (formatNumber(celsius)), "°C")
 	}
 
 	// Celsius til Fahrenheit
