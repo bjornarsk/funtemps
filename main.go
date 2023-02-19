@@ -41,8 +41,11 @@ func init() {
 
 func formatNumber(num float64) string {
 	formatted := strconv.FormatFloat(num, 'f', 2, 64)
+	formatted = fmt.Sprintf("%.2f", num)
 	formatted = strings.TrimRight(formatted, "0")
 	formatted = strings.TrimRight(formatted, ".")
+
+	// Add commas as separators between large numbers
 
 	if (num > 1000) || (num < -1000) {
 		// Add commas as separators between large numbers
@@ -99,31 +102,31 @@ func main() {
 	// Celsius til Fahrenheit
 	if out == "F" && isFlagPassed("C") {
 		fahr = conv.CelsiusToFahrenheit(celsius)
-		fmt.Println(celsius, "°C er", fahr, "°F")
+		fmt.Println(celsius, "°C er", (formatNumber(fahr)), "°F")
 	}
 
 	// Fahrenheit til Kelvin
 	if out == "K" && isFlagPassed("F") {
 		kelvin = conv.FahrenheitToKelvin(fahr)
-		fmt.Println(fahr, "°F er", kelvin, "°K")
+		fmt.Println(fahr, "°F er", (formatNumber(kelvin)), "°K")
 	}
 
 	// Celsius til Kelvin
 	if out == "K" && isFlagPassed("C") {
 		kelvin = conv.CelsiusToKelvin(celsius)
-		fmt.Println(celsius, "°C er", kelvin, "°K")
+		fmt.Println(celsius, "°C er", (formatNumber(kelvin)), "°K")
 	}
 
 	// Kelvin til Celsius
 	if out == "C" && isFlagPassed("K") {
 		celsius = conv.KelvinToCelsius(kelvin)
-		fmt.Println(kelvin, "°K er", celsius, "°C")
+		fmt.Println(kelvin, "°K er", (formatNumber(celsius)), "°C")
 	}
 
 	// Kelvin til Fahrenheit
 	if out == "F" && isFlagPassed("K") {
 		fahr = conv.KelvinToFahrenheit(kelvin)
-		fmt.Println(kelvin, "°K er", fahr, "°F")
+		fmt.Println(kelvin, "°K er", (formatNumber(fahr)), "°F")
 	}
 }
 
